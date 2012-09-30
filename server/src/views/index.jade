@@ -1,0 +1,33 @@
+p insert task
+form#task_form
+    input.name(type='text', placeholder='task name')
+    input(type='submit')
+
+script(type='text/javascript', src='/assets/lib/jquery.min.js')
+script
+    $('#task_form').submit(function(event){
+        name = $('#task_form').find('.name').val();
+        name = $.trim(name);
+        if(name.length == 0){
+            alert('no name');
+            return;
+        }
+        task = {
+            'name': name
+        };
+        $('#task_form').find('.name').val('');
+        $.ajax({
+            type: "POST",
+            url: "/api/tasks",
+            data: task,
+            dataType: 'json',
+            success: function(data){
+                console.log(data);
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                var responseText = $.parseJSON(xhr.responseText);
+                alert(responseText.error);
+            }
+        });
+        event.preventDefault();
+    });
