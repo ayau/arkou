@@ -3,6 +3,14 @@ nano       = require('nano')(config.database.endpoint)
 db         = nano.use config.database.name
 
 
+exports.getTask = (id, callback) ->
+    db.get id, {}, (err, body) ->
+        if err
+            return callback err, null
+        if body.type isnt 'task'
+            return callback {error: 'id is not a task'}, null
+        return callback null, body
+
 exports.getTasks = (callback) ->
     db.view 'tasks', 'list', (err, body) ->
         if err

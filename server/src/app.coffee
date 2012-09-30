@@ -30,8 +30,8 @@ app.configure 'production', ->
 # Routes
 app.get '/', routes.index
 
-app.get '/api/tasks', api.get_tasks
 app.get '/api/tasks/:id', api.get_task
+app.get '/api/tasks', api.get_tasks
 app.post '/api/tasks', api.post_task
 app.put '/api/tasks/:id', api.put_task
 app.delete '/api/tasks/:id', api.delete_task

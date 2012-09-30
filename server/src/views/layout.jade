@@ -2,5 +2,10 @@
 html
     head
         title= title
+        link(rel='stylesheet', href='/assets/stylesheets/app.css')
     body
-        != body
+        header
+            .container
+                h1= title
+        section.container
+            != body
