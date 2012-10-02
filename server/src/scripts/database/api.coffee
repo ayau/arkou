@@ -3,6 +3,22 @@ nano       = require('nano')(config.database.endpoint)
 db         = nano.use config.database.name
 
 
+exports.getUser = (callback) ->
+    db.view 'users', 'get', (err, body) ->
+        if err
+            return callback err, null
+        if body.rows.length is 1
+            return callback null, body.rows[0].value
+        return callback null, null
+
+exports.insertUser = (user, callback) ->
+    db.insert user, (err, header, body) ->
+        if err
+            return callback err, null
+        user._id = header.id
+        user._rev = header.rev
+        return callback null, user
+
 exports.getTask = (id, callback) ->
     db.get id, {}, (err, body) ->
         if err
